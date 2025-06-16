@@ -39,15 +39,6 @@ export default defineNuxtConfig({
 
     compatibilityDate: '2025-01-31',
 
-    nitro: {
-        imports: {
-            dirs: [
-                './server/utils',
-                './server/graphql',
-            ],
-        },
-    },
-
     vite: {
         server: {
             allowedHosts: [
@@ -131,7 +122,7 @@ export default defineNuxtConfig({
         clients: {
             storefront: {
                 apiVersion: process.env.NUXT_SHOPIFY_API_VERSION as string,
-                privateAccessToken: process.env.NUXT_SHOPIFY_STOREFRONT_PRIVATE_ACCESS_TOKEN as string,
+                publicAccessToken: process.env.NUXT_SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN as string,
             },
         },
     },

@@ -1,5 +1,3 @@
-import { queryToFilters } from '~/shared/filters'
-
 export const useFilters = () => {
     const route = useRoute()
 

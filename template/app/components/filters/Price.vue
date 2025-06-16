@@ -2,8 +2,6 @@
 import type { ProductFilter, ProductConnectionFieldsFragment } from '#shopify/storefront'
 import type { UpdateFilterFn } from '../../../types/filter'
 
-import { queryToFilters } from '~/shared/filters'
-
 const props = defineProps<{
     filter: ProductConnectionFieldsFragment['filters'][number]
 }>()

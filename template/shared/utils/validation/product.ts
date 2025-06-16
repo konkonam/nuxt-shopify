@@ -1,5 +1,14 @@
 import { z } from 'zod'
 
+import {
+    categoryFilterSchema,
+    priceRangeFilterSchema,
+    metafieldFilterSchema,
+    taxonomyMetafieldFilterSchema,
+    variantOptionFilterSchema,
+    connectionParamsSchema,
+} from './utils'
+
 export const productFilterSchema = z.object({
     available: z.boolean().optional(),
     category: categoryFilterSchema.optional(),
