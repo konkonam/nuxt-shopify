@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '#ui/types'
 
+import { IMAGE_FRAGMENT, COLLECTION_FRAGMENT, COLLECTION_CONNECTION_FRAGMENT } from '~~/graphql'
+
+const storefront = useStorefront()
 const { country } = useCountry()
 const { locale } = useI18n()
 
 const key = computed(() => `collections-${locale.value}-${country.value}`)
-
-const storefront = useStorefront()
 
 const { data, error } = await useAsyncData(key, async () => await storefront.request(`#graphql
     query FetchCollections($after: String, $before: String, $first: Int, $last: Int, $language: LanguageCode, $country: CountryCode)
@@ -37,7 +38,7 @@ const { data, error } = await useAsyncData(key, async () => await storefront.req
 if (error.value) {
     throw createError({
         statusCode: 500,
-        statusMessage: 'Failed to fetch collections',
+        statusMessage: error.value.message,
         fatal: true,
     })
 }

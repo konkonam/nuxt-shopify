@@ -8,6 +8,12 @@ export default defineNuxtConfig({
         'nuxt-auth-utils',
     ],
 
+    imports: {
+        dirs: [
+            './graphql',
+        ],
+    },
+
     app: {
         head: {
             link: [
@@ -38,6 +44,14 @@ export default defineNuxtConfig({
     },
 
     compatibilityDate: '2025-01-31',
+
+    nitro: {
+        imports: {
+            dirs: [
+                './graphql',
+            ],
+        },
+    },
 
     vite: {
         server: {
