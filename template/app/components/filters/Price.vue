@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import type { ProductFilter, ProductConnectionFieldsFragment } from '#shopify/storefront'
-import type { UpdateFilterFn } from '../../../types/filter'
 
 const props = defineProps<{
     filter: ProductConnectionFieldsFragment['filters'][number]
 }>()
 
-const emits = defineEmits<UpdateFilterFn>()
+const emits = defineEmits<{
+    'update:filter': [name, value]
+}>()
 
 const route = useRoute()
 const { t } = useI18n()

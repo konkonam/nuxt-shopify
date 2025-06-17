@@ -4,15 +4,34 @@ import type { NavigationMenuItem } from '#ui/types'
 const { country } = useCountry()
 const { locale } = useI18n()
 
-const { data, error } = await useFetch('/api/collections', {
-    key: 'collections',
-    method: 'POST',
-    body: {
+const key = computed(() => `collections-${locale.value}-${country.value}`)
+
+const storefront = useStorefront()
+
+const { data, error } = await useAsyncData(key, async () => await storefront.request(`#graphql
+    query FetchCollections($after: String, $before: String, $first: Int, $last: Int, $language: LanguageCode, $country: CountryCode)
+        @inContext(language: $language, country: $country) {
+            collections(
+                after: $after
+                before: $before
+                first: $first
+                last: $last
+            ) {
+                ...CollectionConnectionFields
+            }
+        }
+        ${IMAGE_FRAGMENT}
+        ${COLLECTION_FRAGMENT}
+        ${COLLECTION_CONNECTION_FRAGMENT}
+`, {
+    variables: {
         first: 10,
-        language: locale,
-        country: country,
+        language: locale.value?.toUpperCase(),
+        country: country.value?.toUpperCase(),
     },
+}), {
     watch: [locale, country],
+    transform: data => data.data,
 })
 
 if (error.value) {
@@ -28,7 +47,7 @@ const searchOpen = ref(false)
 
 const menuOpen = ref(false)
 
-const collections = computed<NavigationMenuItem[]>(() => data.value?.collections.edges
+const collections = computed<NavigationMenuItem[]>(() => data.value?.collections?.edges
     ?.map(collection => ({
         label: collection.node.title,
         to: getCollectionAppUrl(collection.node.handle),

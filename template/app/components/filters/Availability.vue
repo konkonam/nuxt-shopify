@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { ProductFilter, ProductConnectionFieldsFragment } from '#shopify/storefront'
 import type { CheckboxGroupItem, CheckboxGroupValue } from '#ui/types'
-import type { UpdateFilterFn } from '../../../types/filter'
 
 const props = defineProps<{
     filter: ProductConnectionFieldsFragment['filters'][number]
 }>()
 
-const emits = defineEmits<UpdateFilterFn>()
+const emits = defineEmits<{
+    'update:filter': [name, value]
+}>()
 
 const { filters } = useFilters()
 const { t } = useI18n()
