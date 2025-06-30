@@ -11,8 +11,8 @@
         "typecheck": "nuxt typecheck"
     },
     "dependencies": {
-        "@nuxt/kit": "^4.0.0-alpha.2",
-        "nuxt": "^4.0.0-alpha.2",
+        "@nuxt/kit": "^4.0.0-alpha.4",
+        "nuxt": "^4.0.0-alpha.4",
         "zod": "^3.25.67"
     }
 }
