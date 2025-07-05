@@ -17,34 +17,43 @@ interface INav {
 
 export default defineAppConfig({
     shadcnDocs: {
-        site: {
+        header: {
             name: 'nuxt-shopify',
             description: 'Shopify integration for Nuxt',
-        },
-        theme: {
-            customizable: true,
-        },
-        header: {
             logo: {
-                light: '/logo-light.svg',
+                light: '/logo.svg',
                 dark: '/logo-dark.svg',
             },
             nav: [
                 {
-                    title: 'Get Started',
-                    to: '/getting-started',
+                    title: 'Essentials',
+                    to: '/essentials',
+                    showLinkIcon: false,
+                },
+                {
+                    title: 'Features',
+                    to: '/features',
+                    showLinkIcon: false,
+                },
+                {
+                    title: 'Recipes',
+                    to: '/recipes',
+                    showLinkIcon: false,
                 },
             ],
             links: [
                 {
                     title: 'GitHub',
                     icon: 'lucide:github',
-                    to: 'https://github.com/nuxt-shopify',
+                    to: 'https://github.com/konkonam/nuxt-shopify',
                 },
             ],
         },
+        theme: {
+            customizable: false,
+            color: 'green',
+        },
         aside: {
-            levelStyle: 'header',
         },
         main: {
             // ...

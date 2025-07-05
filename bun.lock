@@ -46,6 +46,9 @@
         "vue": "^3.5.17",
         "vue-router": "^4.5.1",
       },
+      "devDependencies": {
+        "@iconify-json/hugeicons": "^1.2.5",
+      },
     },
     "playgrounds/playground": {
       "name": "playground",

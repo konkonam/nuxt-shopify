@@ -1,27 +1,23 @@
 ---
-title: Shopify Admin API
-description: Shopify Admin API examples
-icon: lucide:book-type
+title: nuxt-shopify
+description: Plug & play Shopify integration with a strong focus on developer experience.
+navigation: false
 ---
 
 ::hero
 ---
-announcement:
-  title: 'Release v1.0.0'
-  icon: 'lucide:party-popper'
-  to: /getting-started
 actions:
   - name: Get Started
-    to: /getting-started
+    to: /essentials/quickstart
   - name: GitHub
     variant: outline
-    to: https://github.com/ZTL-UwU/shadcn-docs-nuxt
-    leftIcon: 'lucide:github'
+    to: https://github.com/konkonam/nuxt-shopify
+    leftIcon: hugeicons:github
 ---
 
 #title
-Effortless and Beautiful :br Docs Template.
+nuxt-shopify
 
 #description
-Beautifully designed Nuxt Content template with shadcn-vue. :br Customizable. Compatible. Open Source.
+Plug & play Shopify integration with a strong focus on developer experience.
 ::

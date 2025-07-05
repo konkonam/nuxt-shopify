@@ -1,7 +1,6 @@
 @import 'tailwindcss';
 
 @config '../../tailwind.config.js';
-/* If you are using shadcn-docs-nuxt in a monorepo, change the amount of .. to match the node_modules directory */
 @source '../../../node_modules/shadcn-docs-nuxt';
 
 @layer base {
