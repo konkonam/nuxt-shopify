@@ -6,6 +6,7 @@
   "description": "Easily integrate shopify with nuxt 3 and 4 🚀",
   "workspaces": [
     ".",
+    "docs-v2",
     "template",
     "playgrounds/*"
   ],
@@ -42,6 +43,7 @@
     "dev:v4": "bun run --filter=playground-v4 --env-file=.env --elide-lines=100 dev",
     "dev:template": "bun run --filter=./template --env-file=.env --elide-lines=100 dev",
     "dev:docs": "vitepress dev docs",
+    "dev:docs:v2": "bun run --filter=./docs-v2 dev",
     "preview:docs": "vitepress preview docs",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
