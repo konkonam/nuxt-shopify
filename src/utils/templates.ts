@@ -53,6 +53,10 @@ export function registerTemplates<T extends ShopifyClientType>(nuxt: Nuxt, clien
     const introspectionFilename = `schema/${kebabCase(clientType)}.schema.json`
     const introspectionPath = join(nuxt.options.buildDir, introspectionFilename)
 
+    /**
+     * Create the customer account introspection file before
+     * the templates run as there is no direct proxy endpoint
+     */
     if (clientType === ShopifyClientType.CustomerAccount && !existsSync(introspectionPath)) {
         mkdirSync(dirname(introspectionPath), { recursive: true })
         writeFileSync(introspectionPath, JSON.stringify(customerAccountSchema))

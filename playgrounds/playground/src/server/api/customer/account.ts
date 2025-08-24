@@ -1,7 +1,7 @@
 export default defineEventHandler(async () => {
     const customerAccount = useCustomerAccount()
 
-    return await customerAccount.request(`#graphql
+    const { data: customer } = await customerAccount.request(`#graphql
         query CustomerDetails {
             customer {
                 ...CustomerFields
@@ -9,4 +9,6 @@ export default defineEventHandler(async () => {
         }
         ${CUSTOMER_FRAGMENT}
     `)
+
+    return customer
 })

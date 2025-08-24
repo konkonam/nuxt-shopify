@@ -1,7 +1,5 @@
 <script setup lang="ts">
-const { data: customer, error } = await useFetch('/api/customer/account')
-
-console.log(error.value)
+const { data: customer } = await useFetch('/api/customer/account')
 </script>
 
 <template>

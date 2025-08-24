@@ -33,11 +33,11 @@ const getInterfaceExtensionFunction = (clientType: ShopifyClientType, queryType:
         : `@shopify/${clientType}-api-client`
 
     return `
-declare module '${module}' {
-    type InputMaybe<T> = ${upperFirst(clientType)}Types.InputMaybe<T>
-    interface ${upperFirst(clientType)}Queries extends ${queryType} {}
-    interface ${upperFirst(clientType)}Mutations extends ${mutationType} {}
-}
+        declare module '${module}' {
+            type InputMaybe<T> = ${upperFirst(clientType)}Types.InputMaybe<T>
+            interface ${upperFirst(clientType)}Queries extends ${queryType} {}
+            interface ${upperFirst(clientType)}Mutations extends ${mutationType} {}
+        }
     `
 }
 

@@ -12,30 +12,30 @@ export default defineCachedEventHandler(async (event) => {
 
     const { data } = await storefront.request(`#graphql
         query FetchProducts(
-        $handle: String,
-        $after: String,
-        $before: String,
-        $first: Int,
-        $last: Int,
-    ) {
-        collection(handle: $handle) {
-            products(
-                after: $after,
-                before: $before,
-                first: $first,
-                last: $last,
-            ) {
-                edges {
-                    cursor
-                    node {
-                        id
-                        title
-                        description
+            $handle: String,
+            $after: String,
+            $before: String,
+            $first: Int,
+            $last: Int,
+        ) {
+            collection(handle: $handle) {
+                products(
+                    after: $after,
+                    before: $before,
+                    first: $first,
+                    last: $last,
+                ) {
+                    edges {
+                        cursor
+                        node {
+                            id
+                            title
+                            description
+                        }
                     }
                 }
             }
         }
-    }
     `, {
         variables: query,
     })
