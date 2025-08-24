@@ -12,7 +12,7 @@ import {
     useRuntimeConfig,
     updateRuntimeConfig,
 } from '@nuxt/kit'
-import { upperFirst } from 'scule'
+import { kebabCase, upperFirst } from 'scule'
 import { defu } from 'defu'
 import {
     installSandbox,
@@ -63,7 +63,7 @@ export default defineNuxtModule<ModuleOptions>({
                     registerTemplates(nuxt, clientType, clientConfig)
                 }
                 else {
-                    log.info(`Skipping type generation for ${clientType}`)
+                    log.info(`Skipping type generation for ${kebabCase(clientType)}`)
                 }
 
                 if (nuxt.options.dev && clientConfig.sandbox) {

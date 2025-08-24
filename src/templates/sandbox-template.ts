@@ -1,5 +1,7 @@
 import type { ShopifyClientType } from '../types'
 
+import { kebabCase } from 'scule'
+
 /**
  * Get the HTML template for the sandbox environment. The template for
  * creating the sandbox interface is based on one of GraphiQL's examples:
@@ -17,7 +19,7 @@ export default function getSandboxTemplate(clientType: ShopifyClientType) {
                 <meta charset="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-                <title>GraphiQL - ${clientType}</title>
+                <title>GraphiQL - ${kebabCase(clientType)}</title>
 
                 <style>
                     body {

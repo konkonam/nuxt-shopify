@@ -17,6 +17,13 @@ export default defineNuxtConfig({
                     apiVersion: '',
                     accessToken: '',
                 },
+
+                customerAccount: {
+                    apiVersion: '',
+                    shopId: '',
+                    clientId: '',
+                    clientSecret: '',
+                },
             },
         },
     },
@@ -26,22 +33,9 @@ export default defineNuxtConfig({
     compatibilityDate: '2025-08-22',
 
     shopify: {
-        clients: {
-            storefront: {
-                documents: [
-                    '!**/admin/**.{js,ts,graphql,gql}',
-                ],
-            },
-
-            admin: {
-                documents: [
-                    '**/admin/**.{js,ts,graphql,gql}',
-                ],
-            },
-        },
-
         autoImports: {
             admin: false,
+            customerAccount: false,
         },
     },
 })

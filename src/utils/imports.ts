@@ -40,18 +40,36 @@ export function registerAutoImports(nuxt: Nuxt, config: ShopifyConfig, resolver:
     const usesClientSide = config.clients.storefront?.mock || (config.clients.storefront?.publicAccessToken?.length ?? 0) > 0
 
     if (config.autoImports?.graphql) {
-        autoImportDir(join(nuxt.options.rootDir, 'graphql'), usesClientSide)
+        autoImportDir(
+            join(nuxt.options.rootDir, 'graphql'),
+            Boolean(config.clients.storefront?.mock || config.clients.storefront?.publicAccessToken)
+            || Boolean(config.clients.customerAccount),
+        )
+
         useLog().debug('Auto-importing GraphQL from `~/graphql` directory')
     }
 
     if (config.autoImports?.storefront) {
-        autoImportDir(join(nuxt.options.buildDir, 'types/storefront'), usesClientSide)
+        autoImportDir(
+            join(nuxt.options.buildDir, 'types/storefront'),
+            Boolean(config.clients.storefront?.mock || config.clients.storefront?.publicAccessToken),
+        )
+
         useLog().debug('Auto-importing Storefront types')
     }
 
     if (config.autoImports?.admin) {
-        autoImportDir(join(nuxt.options.buildDir, 'types/admin'), usesClientSide)
+        autoImportDir(join(nuxt.options.buildDir, 'types/admin'), false)
         useLog().debug('Auto-importing Admin types')
+    }
+
+    if (config.autoImports?.customerAccount) {
+        autoImportDir(
+            join(nuxt.options.buildDir, 'types/customerAccount'),
+            Boolean(config.clients.customerAccount),
+        )
+
+        useLog().debug('Auto-importing Customer Account types')
     }
 
     registerUtilImports(resolver, usesClientSide)

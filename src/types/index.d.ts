@@ -7,13 +7,18 @@ import type {
     ShopifyConfig,
     ShopifyAdminConfig,
     ShopifyStorefrontConfig,
+    ShopifyCustomerAccountConfig,
     StorefrontOptions,
     AdminOptions,
+    CustomerAccountOptions,
 } from './shopify'
 
+export type ExcludedClientOptions = 'storeDomain' | 'logger' | 'customFetchApi'
+
 export type ModuleOptions = ShopifyConfig<
-    Partial<Omit<ShopifyStorefrontConfig, 'storeDomain' | 'logger' | 'customFetchApi'>>,
-    Partial<Omit<ShopifyAdminConfig, 'storeDomain' | 'logger' | 'customFetchApi'>>
+    Partial<Omit<ShopifyStorefrontConfig, ExcludedClientOptions>>,
+    Partial<Omit<ShopifyAdminConfig, ExcludedClientOptions>>,
+    Partial<Omit<ShopifyCustomerAccountConfig, ExcludedClientOptions>>
 >
 
 export type ShopifyConfigHookParams = {
@@ -54,6 +59,7 @@ declare module '@nuxt/schema' {
         shopify?: Omit<ModuleOptions, 'clients'> & {
             clients?: {
                 storefront: Partial<Omit<ShopifyStorefrontConfig, 'storeDomain' | 'logger' | 'customFetchApi' | 'privateAccessToken'>>
+                customerAccount: Partial<Omit<ShopifyCustomerAccountConfig, 'logger' | 'customFetchApi' | 'clientSecret'>>
             }
         }
 
@@ -95,6 +101,21 @@ declare module '@nuxt/schema' {
          * Called before the admin operations are generated
          */
         'admin:generate:operations': ({ nuxt, config }: ShopifyTemplateHookParams) => HookResult
+
+        /**
+         * Called before the customer account introspection schema is generated
+         */
+        'customer-account:generate:introspection': ({ nuxt, config }: ShopifyTemplateHookParams) => HookResult
+
+        /**
+         * Called before the customer account types are generated
+         */
+        'customer-account:generate:types': ({ nuxt, config }: ShopifyTemplateHookParams) => HookResult
+
+        /**
+         * Called before the customer account operations are generated
+         */
+        'customer-account:generate:operations': ({ nuxt, config }: ShopifyTemplateHookParams) => HookResult
     }
 }
 
@@ -114,6 +135,21 @@ declare module '#app' {
          * Called when the storefront client throws an error within nuxt
          */
         'storefront:client:errors': ({ errors }: ShopifyErrorHookParams) => HookResult
+
+        /**
+         * Called before the customer account client is created within nuxt
+         */
+        'customer-account:client:configure': ({ options }: ShopifyClientOptionHookParams<Omit<CustomerAccountOptions, 'clientSecret'>>) => HookResult
+
+        /**
+         * Called after the customer account client is created within nuxt
+         */
+        'customer-account:client:create': ({ client }: ShopifyClientHookParams<CustomerAccountApiClient>) => HookResult
+
+        /**
+         * Called when the customer account client throws an error within nuxt
+         */
+        'customer-account:client:errors': ({ errors }: ShopifyErrorHookParams) => HookResult
     }
 }
 
@@ -148,6 +184,21 @@ declare module 'nitropack' {
          * Called when the admin client throws an error within nitro
          */
         'admin:client:errors': ({ errors }: ShopifyErrorHookParams) => HookResult
+
+        /**
+         * Called after the customer account client is created within nitro
+         */
+        'customer-account:client:configure': ({ options }: ShopifyClientOptionHookParams<CustomerAccountOptions>) => HookResult
+
+        /**
+         * Called when the customer account client is created within nitro
+         */
+        'customer-account:client:create': ({ client }: ShopifyClientHookParams<CustomerAccountApiClient>) => HookResult
+
+        /**
+         * Called when the customer account client throws an error within nitro
+         */
+        'customer-account:client:errors': ({ errors }: ShopifyErrorHookParams) => HookResult
     }
 }
 

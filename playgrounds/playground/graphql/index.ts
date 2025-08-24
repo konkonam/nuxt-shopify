@@ -1,7 +1,3 @@
-export const PRODUCT_FRAGMENT = `#graphql
-    fragment ProductFields on Product {
-        id
-        title
-        description
-    }
-`
+export * from './storefront'
+export * from './admin'
+export * from './customer'

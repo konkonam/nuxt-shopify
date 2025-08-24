@@ -1,7 +1,12 @@
+import type { Nuxt, NuxtTemplate } from '@nuxt/schema'
+import type {
+    ShopifyClientConfig,
+    ShopifyTemplateOptions,
+} from '../types'
+
 import { readFile } from 'node:fs/promises'
 import { dirname, basename, join } from 'node:path'
-import type { Nuxt, NuxtTemplate } from '@nuxt/schema'
-
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import {
     addTemplate,
     addTypeTemplate,
@@ -9,12 +14,13 @@ import {
 } from '@nuxt/kit'
 import defu from 'defu'
 import { minimatch } from 'minimatch'
-import type {
-    ShopifyClientType,
-    ShopifyClientConfig,
-    ShopifyTemplateOptions,
-} from '../types'
+import { kebabCase } from 'scule'
 
+import customerAccountSchema from '@shopify/hydrogen-react/customer-account.schema.json'
+
+import {
+    ShopifyClientType,
+} from './config'
 import {
     generateIntrospection,
     generateOperations,
@@ -44,8 +50,13 @@ export function setupWatcher(nuxt: Nuxt, template: NuxtTemplate<ShopifyTemplateO
 }
 
 export function registerTemplates<T extends ShopifyClientType>(nuxt: Nuxt, clientType: T, clientConfig: ShopifyClientConfig) {
-    const introspectionFilename = `schema/${clientType}.schema.json`
+    const introspectionFilename = `schema/${kebabCase(clientType)}.schema.json`
     const introspectionPath = join(nuxt.options.buildDir, introspectionFilename)
+
+    if (clientType === ShopifyClientType.CustomerAccount && !existsSync(introspectionPath)) {
+        mkdirSync(dirname(introspectionPath), { recursive: true })
+        writeFileSync(introspectionPath, JSON.stringify(customerAccountSchema))
+    }
 
     const introspection = addTemplate<ShopifyTemplateOptions>({
         filename: introspectionFilename,
@@ -59,7 +70,7 @@ export function registerTemplates<T extends ShopifyClientType>(nuxt: Nuxt, clien
         write: true,
     })
 
-    const typesFilename = `types/${clientType}/${clientType}.types`
+    const typesFilename = `types/${kebabCase(clientType)}/${kebabCase(clientType)}.types`
     const types = addTypeTemplate<ShopifyTemplateOptions>({
         filename: `${typesFilename}.d.ts`,
         getContents: generateTypes,
@@ -71,7 +82,7 @@ export function registerTemplates<T extends ShopifyClientType>(nuxt: Nuxt, clien
         },
     })
 
-    const operationsFilename = `types/${clientType}/${clientType}.operations`
+    const operationsFilename = `types/${kebabCase(clientType)}/${kebabCase(clientType)}.operations`
     const operations = addTypeTemplate<ShopifyTemplateOptions>({
         filename: `${operationsFilename}.d.ts`,
         getContents: generateOperations,
@@ -86,12 +97,12 @@ export function registerTemplates<T extends ShopifyClientType>(nuxt: Nuxt, clien
     setupWatcher(nuxt, operations)
 
     const index = addTypeTemplate<ShopifyTemplateOptions>({
-        filename: `types/${clientType}/index.d.ts`,
+        filename: `types/${kebabCase(clientType)}/index.d.ts`,
         getContents: () => `export * from './${basename(types.filename)}'\nexport * from './${basename(operations.filename)}'\n`,
     })
 
     nuxt.options = defu(nuxt.options, {
-        alias: { [`#shopify/${clientType}`]: dirname(index.filename) },
+        alias: { [`#shopify/${kebabCase(clientType)}`]: dirname(index.filename) },
         nitro: {
             typescript: {
                 tsConfig: {

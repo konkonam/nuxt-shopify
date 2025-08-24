@@ -20,10 +20,12 @@ export const useShopifyConfigValidation = (options: ModuleOptions) => {
             graphql: z.boolean().optional().default(true),
             storefront: z.boolean().optional().default(true),
             admin: z.boolean().optional().default(true),
+            customerAccount: z.boolean().optional().default(true),
         }).optional().default({
             graphql: true,
             storefront: true,
             admin: true,
+            customerAccount: true,
         }),
 
         errors: z.object({
@@ -39,10 +41,17 @@ export const useShopifyConfigValidation = (options: ModuleOptions) => {
                 clientName: z.string().min(11).optional(),
                 mock: z.boolean().optional(),
             }).optional(),
+
             admin: clientSchema.extend({
                 accessToken: z.string().min(1),
                 userAgentPrefix: z.string().min(1).optional(),
                 isTesting: z.boolean().optional(),
+            }).optional(),
+
+            customerAccount: clientSchema.extend({
+                shopId: z.string({ coerce: true }).min(1),
+                clientId: z.string().min(1),
+                clientSecret: z.string().min(1).optional(),
             }).optional(),
         }),
     })

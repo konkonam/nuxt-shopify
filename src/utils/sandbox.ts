@@ -1,13 +1,16 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { H3Event } from 'h3'
+import type { ShopifyConfig } from '../types'
 
 import { addDevServerHandler } from '@nuxt/kit'
 import { createAdminApiClient } from '@shopify/admin-api-client'
 import { createStorefrontApiClient } from '@shopify/storefront-api-client'
+import { createGraphQLClient, type GraphQLClient } from '@shopify/graphql-client'
 import { defineEventHandler, readValidatedBody } from 'h3'
+import { kebabCase } from 'scule'
 import { z } from 'zod'
-import type { ShopifyClientType, ShopifyConfig } from '../types'
 
+import { ShopifyClientType } from './config'
 import getSandboxTemplate from '../templates/sandbox-template'
 
 export function getSandboxUrl(nuxt: Nuxt, clientType: ShopifyClientType) {
@@ -19,7 +22,7 @@ export function getSandboxUrl(nuxt: Nuxt, clientType: ShopifyClientType) {
 export function getClientConfig<T extends ShopifyClientType>(clientType: T, config?: ShopifyConfig) {
     const clientConfig = config?.clients?.[clientType] as ShopifyConfig['clients'][T]
 
-    if (!clientConfig) throw new Error(`Could not create ${clientType} client`)
+    if (!clientConfig) throw new Error(`Could not create ${kebabCase(clientType)} client`)
 
     const {
         skipCodegen: _skipCodegen,
@@ -50,22 +53,28 @@ export function getSandboxProxyHandler(nuxt: Nuxt, clientType: ShopifyClientType
 
         const body = await readValidatedBody(event, schema.parse)
 
-        let client: ReturnType<typeof createStorefrontApiClient> | ReturnType<typeof createAdminApiClient>
+        let client: ReturnType<typeof createStorefrontApiClient>
+            | ReturnType<typeof createAdminApiClient>
+            | ReturnType<typeof createGraphQLClient>
 
         switch (clientType) {
-            case 'storefront':
+            case ShopifyClientType.Storefront:
                 client = createStorefrontApiClient(getClientConfig(clientType, config))
 
                 break
-            case 'admin':
+            case ShopifyClientType.Admin:
                 client = createAdminApiClient(getClientConfig(clientType, config))
+
+                break
+            case ShopifyClientType.CustomerAccount:
+                client = createGraphQLClient(getClientConfig(clientType, config))
 
                 break
             default:
                 throw new Error('The requested client is not supported')
         }
 
-        return client.request(body.query, {
+        return (client as GraphQLClient).request(body.query, {
             variables: body.variables,
         })
     })
