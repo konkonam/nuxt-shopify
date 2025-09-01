@@ -29,7 +29,10 @@ import {
     useShopifyConfigValidation,
     installSandbox,
     registerTemplates,
-} from './utils'
+} from './lib/utils'
+import {
+    createStorefrontConfig,
+} from './runtime/app/utils/clients/storefront'
 
 const ROLLUP_REPLACE_VIRTUAL_MODULES = true
 

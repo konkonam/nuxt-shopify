@@ -6,5 +6,11 @@
         "node_modules",
         "docs",
         "dist",
-    ]
+    ],
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"],
+        }
+    }
 }

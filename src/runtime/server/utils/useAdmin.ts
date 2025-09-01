@@ -2,8 +2,8 @@ import type { AdminApiClient, AdminOperations } from '@konkonam/nuxt-shopify/adm
 
 import { useNitroApp } from 'nitropack/runtime'
 import { useRuntimeConfig } from '#imports'
-import { createClient } from '../../utils/clients'
-import { createAdminConfig } from '../../utils/clients/admin'
+import { createClient } from '../../app/utils/clients'
+import { createAdminConfig } from '../../app/utils/clients/admin'
 import useErrors from './useErrors'
 
 export function useAdmin(): AdminApiClient {

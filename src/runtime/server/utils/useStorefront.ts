@@ -2,8 +2,8 @@ import type { StorefrontApiClient, StorefrontOperations } from '@konkonam/nuxt-s
 
 import { useNitroApp } from 'nitropack/runtime'
 import { useRuntimeConfig } from '#imports'
-import { createClient } from '../../utils/clients'
-import { createStorefrontConfig } from '../../utils/clients/storefront'
+import { createClient } from '../../app/utils/clients'
+import { createStorefrontConfig } from '../../app/utils/clients/storefront'
 import useErrors from './useErrors'
 
 export function useStorefront(): StorefrontApiClient {
