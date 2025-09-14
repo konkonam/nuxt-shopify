@@ -1,6 +1,6 @@
 import type { IGraphQLConfig } from 'graphql-config'
 
-const config: IGraphQLConfig = {
+const config = {
     projects: {
         default: {
             schema: './playgrounds/playground/.nuxt/schema/storefront.schema.json',
@@ -18,6 +18,6 @@ const config: IGraphQLConfig = {
             ],
         },
     },
-}
+} satisfies IGraphQLConfig
 
 export default config
